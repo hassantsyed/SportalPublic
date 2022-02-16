@@ -1,0 +1,42 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sportal-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: sportal-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+      name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sportal-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sportal-app
+  template:
+    metadata:
+      labels:
+        app: sportal-app
+    spec:
+      containers:
+      - name: sportal
+        image: docker.io/hassantsyed/sportal:v2.02
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /admin
+            port: 8000
+          initialDelaySeconds: 20
+          timeoutSeconds: 5
+      imagePullSecrets:
+        - name: dockerhub

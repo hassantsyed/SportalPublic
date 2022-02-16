@@ -1,0 +1,9 @@
+Django==2.2.1
+django-prometheus==2.0.0
+prometheus-client==0.8.0
+mysqlclient==2.0.1
+PyMySql==0.10.0
+mysql-connector-python
+gunicorn==20.0.4
+boto3==1.15.0
+django-storages==1.10.1
